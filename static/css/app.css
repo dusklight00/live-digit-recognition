@@ -121,7 +121,7 @@ body, html {
 .bar_graph .columns .category .bar .bar_progress {
   height: 50%;
   width: 100%;
-  background: #513f99;
+  background: #6654ab;
   -ms-flex-item-align: end;
       align-self: flex-end;
 }
@@ -130,7 +130,7 @@ body, html {
   text-align: center;
   margin-top: 7px;
   font-weight: 600;
-  color: #513f99;
+  color: #6654ab;
 }
 
 .bar_graph .columns .category-active .bar .bar_progress {
