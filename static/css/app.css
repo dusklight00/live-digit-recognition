@@ -1,0 +1,143 @@
+/* 40% opacity */
+body {
+  background-color: #0E0B17;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0px 10px;
+}
+
+body, html {
+  height: 100%;
+}
+
+.app {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0px 0px 10px 0px;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 10px 0px;
+}
+
+.header .title {
+  color: #fff;
+  padding: 0px 20px;
+  font-weight: bold;
+}
+
+.drawing_area {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 0px 0px 10px 0px;
+}
+
+.bar_graph_container {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  height: 200px;
+  width: 300px;
+}
+
+.drawing_board {
+  background-color: #C4C4C4;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+}
+
+.btn {
+  background: #44318D;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.253);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.253);
+}
+
+.clear {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.bar_graph {
+  height: 100%;
+  background: #44318D;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.253);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.253);
+}
+
+.bar_graph .columns {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.bar_graph .columns .category {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.bar_graph .columns .category .bar {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  width: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.bar_graph .columns .category .bar .bar_progress {
+  height: 50%;
+  width: 100%;
+  background: #513f99;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.bar_graph .columns .category .label {
+  text-align: center;
+  margin-top: 7px;
+  font-weight: 600;
+  color: #513f99;
+}
+
+.bar_graph .columns .category-active .bar .bar_progress {
+  background: #eeff02;
+}
+
+.bar_graph .columns .category-active .label {
+  color: #eeff02;
+}
+/*# sourceMappingURL=app.css.map */

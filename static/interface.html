@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Recognizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <style>
+        .noselect {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                            supported by Chrome, Edge, Opera and Firefox */
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <div class="icon">
+                <img src="{{ url_for('static', filename='assets/github_icon.svg') }}" alt="Github Icon">
+            </div>
+            <div class="title">
+                Dusk Light - Live Digit Recognizer
+            </div>
+        </div>
+        <div class="drawing_area">
+            <canvas class="drawing_board"></canvas>
+            <button class="btn clear">Clear</button>
+        </div>
+        <div class="bar_graph_container">
+            <div class="bar_graph noselect">
+                <div class="columns">
+                    <div class="category category-active">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">0</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">1</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">2</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">3</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">4</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">5</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">6</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">7</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">8</div>
+                    </div>
+                    <div class="category">
+                        <div class="bar">
+                            <div class="bar_progress"></div>
+                        </div>
+                        <div class="label">9</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/drawing.js') }}"></script>
+</body>
+</html>

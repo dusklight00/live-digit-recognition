@@ -1,0 +1,41 @@
+body {
+    background-color: $dark;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0px 10px;
+}
+
+body, html {
+    height: 100%;
+}
+
+.app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0px 0px 10px 0px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+
+    .title {
+        color: #fff;
+        padding: 0px 20px;
+        font-weight: bold;
+    }
+}
+
+.drawing_area {
+    flex: 1;
+    margin: 0px 0px 10px 0px;
+}
+
+.bar_graph_container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    height: 200px;
+    width: 300px;
+}
