@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digit Recognizer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
     <style>
         .noselect {
             -webkit-touch-callout: none; /* iOS Safari */
@@ -19,6 +20,7 @@
     </style>
 </head>
 <body>
+    <canvas id="compress_image_canvas" height="28px" width="28px" style="display: none;"></canvas>
     <div class="app">
         <div class="header">
             <div class="icon">
@@ -73,25 +75,25 @@
                     </div>
                     <div class="category">
                         <div class="bar">
-                            <div class="bar_progress"></div>
+                            <div class="bar_progress" id="six"></div>
                         </div>
                         <div class="label">6</div>
                     </div>
                     <div class="category">
                         <div class="bar">
-                            <div class="bar_progress"></div>
+                            <div class="bar_progress" id="seven"></div>
                         </div>
                         <div class="label">7</div>
                     </div>
                     <div class="category">
                         <div class="bar">
-                            <div class="bar_progress"></div>
+                            <div class="bar_progress" id="eight"></div>
                         </div>
                         <div class="label">8</div>
                     </div>
                     <div class="category">
                         <div class="bar">
-                            <div class="bar_progress"></div>
+                            <div class="bar_progress" id="nine"></div>
                         </div>
                         <div class="label">9</div>
                     </div>

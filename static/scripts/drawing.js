@@ -1,6 +1,8 @@
 const canvas = document.querySelector(".drawing_board");
 const context = canvas.getContext("2d")
 
+predicted_results = []
+
 const stroke = {
     color : "#000",
     size : 20
@@ -13,6 +15,13 @@ let mouse_coord = {
     y : 0
 }
 
+draw_rect = {
+    x_left: null,
+    x_right: null,
+    y_top: null,
+    y_bottom: null
+}
+
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight - 10;
 
@@ -23,7 +32,36 @@ window.addEventListener('resize', (e) => {
 canvas.addEventListener("mousemove", e => {
     mouse_coord.x = (e.offsetX / canvas.offsetWidth) * canvas.width;
     mouse_coord.y = (e.offsetY / canvas.offsetHeight) * canvas.height;
-})
+
+    if(mousedown) {
+        if (draw_rect.x_left == null) {
+            draw_rect.x_left = mouse_coord.x
+        } else {
+            draw_rect.x_left = Math.min(draw_rect.x_left, mouse_coord.x)
+        }
+       
+        if (draw_rect.x_right == null) {
+            draw_rect.x_right = mouse_coord.x
+        } else {
+            draw_rect.x_right = Math.max(draw_rect.x_right, mouse_coord.x)
+        }
+
+        if (draw_rect.y_top == null) {
+            draw_rect.y_top = mouse_coord.y
+        } else {
+            draw_rect.y_top = Math.min(draw_rect.y_top, mouse_coord.y)
+        }
+    
+        if (draw_rect.y_bottom == null) {
+            draw_rect.y_bottom = mouse_coord.y
+        } else {
+            draw_rect.y_bottom = Math.max(draw_rect.y_bottom, mouse_coord.y)
+        }
+
+        fetch_predicted_result();
+        render_predicted_values();
+    }
+});
 canvas.addEventListener("mousedown", e => mousedown = true )
 canvas.addEventListener("mouseup", e => mousedown = false )
 
@@ -68,6 +106,109 @@ function render_loop() {
 
 function clear_canvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function get_drawn_image() {
+    return new Promise(resolve => {
+        const compress_image_canvas = document.querySelector("#compress_image_canvas");
+        const compress_image_context = compress_image_canvas.getContext("2d");
+        
+        let compress_image = new Image();
+        compress_image.src = canvas.toDataURL();
+    
+        
+        compress_image.onload = function() {
+    
+            // draw cropped image
+            padding = 20
+            var sourceX = draw_rect.x_left - padding;
+            var sourceY = draw_rect.y_top - padding;
+            var sourceWidth = draw_rect.x_right - draw_rect.x_left + (2 * padding);
+            var sourceHeight = draw_rect.y_bottom - draw_rect.y_top + (2 * padding);
+            var destWidth = 28;
+            var destHeight = 28;
+            var destX = 0;
+            var destY = 0;
+    
+            compress_image_context.drawImage(
+                compress_image, 
+                sourceX, 
+                sourceY, 
+                sourceWidth, 
+                sourceHeight, 
+                destX, 
+                destY, 
+                destWidth, 
+                destHeight
+            );
+            
+            image_data = compress_image_context.getImageData(0, 0, destWidth, destHeight);
+            grey_image_data = []
+            
+            for(let y = 0; y < destHeight; y++) {
+                image_row = []
+                for(let x = 0; x < destWidth; x++) {
+                    let i = (y * destWidth) + x
+                    let red = image_data.data[i];
+                    let green = image_data.data[i + 1];
+                    let blue = image_data.data[i + 2];
+                    let alpha = image_data.data[i + 3];
+    
+                    let grey_scale = (red + green + blue + alpha) / 4
+                    image_row.push(grey_scale)
+                }
+                grey_image_data.push(image_row)
+            }
+    
+            resolve(grey_image_data)
+        };
+    })
+}
+
+async function fetch_predicted_result() {
+    api_url = "/predict_digit";
+    drawn_image_data = await get_drawn_image();
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/predict_digit");
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(`image_data=${ JSON.stringify(drawn_image_data) }`)
+
+    xhr.onload = function() {
+        if(xhr.readyState === xhr.DONE) {
+            if(xhr.status === 200) {
+                response = JSON.parse(xhr.responseText)
+                predicted_results = JSON.parse(response.results)[0]
+            }
+        }
+    }
+}
+
+function render_predicted_values() {
+    max_predicted_result = Math.max(...predicted_results)
+    
+    percentage_predicted_result = []
+    predicted_results.forEach(value => {
+        percentage = (value / max_predicted_result) * 100
+        if (percentage < 1) {
+            percentage = 1
+        }
+
+        percentage_predicted_result.push(percentage);
+    })
+
+    bars = document.querySelectorAll(".bar_progress");
+    bars.forEach((bar, index) => {
+        gsap.to(bar, {height: `${ percentage_predicted_result[index] }%`, duration: 1});
+    })
+
+    categories = document.querySelectorAll(".category");
+    categories.forEach(category => {
+        category.classList.remove("category-active")
+    })
+
+    max_predicted_result_index = predicted_results.indexOf(max_predicted_result);
+    categories[max_predicted_result_index].classList.add("category-active")
 }
 
 setInterval(render_loop, (1000 / frame_rate))
