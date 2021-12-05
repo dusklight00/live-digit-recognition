@@ -1,3 +1,4 @@
 keras
 flask
 gunicorn
+wsgi
