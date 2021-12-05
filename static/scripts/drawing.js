@@ -66,4 +66,8 @@ function render_loop() {
     }
 }
 
+function clear_canvas() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 setInterval(render_loop, (1000 / frame_rate))
