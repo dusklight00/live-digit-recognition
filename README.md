@@ -10,3 +10,5 @@ Once all the dependencies are installed, use this command to run the app
 ```
 python wsgi.py
 ```
+## Live Demo 
+##### [Heroku](https://live-digit-recognizer.herokuapp.com/)
