@@ -30,6 +30,10 @@ body, html {
   margin: 10px 0px;
 }
 
+.header .icon:hover {
+  opacity: 0.9;
+}
+
 .header .title {
   color: #fff;
   padding: 0px 20px;
@@ -49,6 +53,14 @@ body, html {
   left: 20px;
   height: 200px;
   width: 300px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .drawing_board {

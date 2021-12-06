@@ -58,6 +58,19 @@ canvas.addEventListener("mousemove", e => {
             draw_rect.y_bottom = Math.max(draw_rect.y_bottom, mouse_coord.y)
         }
 
+        box_width = draw_rect.x_right - draw_rect.x_left
+        box_height = draw_rect.y_bottom - draw_rect.y_top
+
+        if (box_width > box_height) {
+            padding = (box_width - box_height) / 2
+            draw_rect.y_top -= padding
+            draw_rect.y_bottom += padding 
+        } else if (box_width < box_height) {
+            padding = (box_height - box_width) / 2
+            draw_rect.x_left -= padding
+            draw_rect.x_right += padding 
+        }
+
         fetch_predicted_result();
         render_predicted_values();
     }
@@ -106,6 +119,14 @@ function render_loop() {
 
 function clear_canvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    draw_rect.x_left = null;
+    draw_rect.x_right = null;
+    draw_rect.y_top = null;
+    draw_rect.y_bottom = null;
+
+    predicted_results = [];
+    render_predicted_values()
 }
 
 function get_drawn_image() {
@@ -116,7 +137,6 @@ function get_drawn_image() {
         let compress_image = new Image();
         compress_image.src = canvas.toDataURL();
     
-        
         compress_image.onload = function() {
     
             // draw cropped image
@@ -130,6 +150,7 @@ function get_drawn_image() {
             var destX = 0;
             var destY = 0;
     
+            compress_image_context.clearRect(0, 0, destWidth, destHeight)
             compress_image_context.drawImage(
                 compress_image, 
                 sourceX, 
@@ -142,25 +163,8 @@ function get_drawn_image() {
                 destHeight
             );
             
-            image_data = compress_image_context.getImageData(0, 0, destWidth, destHeight);
-            grey_image_data = []
-            
-            for(let y = 0; y < destHeight; y++) {
-                image_row = []
-                for(let x = 0; x < destWidth; x++) {
-                    let i = (y * destWidth) + x
-                    let red = image_data.data[i];
-                    let green = image_data.data[i + 1];
-                    let blue = image_data.data[i + 2];
-                    let alpha = image_data.data[i + 3];
-    
-                    let grey_scale = (red + green + blue + alpha) / 4
-                    image_row.push(grey_scale)
-                }
-                grey_image_data.push(image_row)
-            }
-    
-            resolve(grey_image_data)
+            image_data = compress_image_context.getImageData(0, 0, destWidth, destHeight); 
+            resolve(image_data.data)
         };
     })
 }
@@ -185,6 +189,18 @@ async function fetch_predicted_result() {
 }
 
 function render_predicted_values() {
+    if (predicted_results.length == 0) {
+        bars = document.querySelectorAll(".bar_progress");
+        bars.forEach(bar => {
+            gsap.to(bar, {height: `1%`, duration: 1});
+        })
+
+        categories = document.querySelectorAll(".category");
+        categories.forEach(category => {
+            category.classList.remove("category-active")
+        });
+    }
+
     max_predicted_result = Math.max(...predicted_results)
     
     percentage_predicted_result = []
@@ -208,7 +224,9 @@ function render_predicted_values() {
     })
 
     max_predicted_result_index = predicted_results.indexOf(max_predicted_result);
-    categories[max_predicted_result_index].classList.add("category-active")
+    if(max_predicted_result_index != -1) {
+        categories[max_predicted_result_index].classList.add("category-active")
+    }
 }
 
 setInterval(render_loop, (1000 / frame_rate))
