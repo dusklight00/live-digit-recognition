@@ -2,7 +2,6 @@ from flask import Flask, Response, render_template, request
 import numpy as np
 from recognizer.mnist import MNIST
 import json
-import cv2
 
 app = Flask(
     __name__,
