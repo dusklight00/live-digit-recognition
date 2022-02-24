@@ -1,4 +1,4 @@
-# Live-Digit-Recognizer
+# Live Digit Recognition
 A project, that use MNIST dataset along with keras merged with web technologies to make a interface that recognize and classifies handritten digits live.
 
 To install the required dependencies, use the command
