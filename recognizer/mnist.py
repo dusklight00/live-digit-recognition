@@ -3,7 +3,7 @@ import numpy as np
 
 class MNIST:
     def __init__(self):
-        self.interpreter = load_model(model_path = "mnist_model.tflite")
+        self.interpreter = load_model(model_path = "scratchmodel.h5")
         self.interpreter.allocate_tensors()
 
     def predict_digit(self, image):
