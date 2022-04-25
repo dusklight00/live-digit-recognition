@@ -3,7 +3,7 @@ import keras
 
 class MNIST:
     def __init__(self):
-        self.model = keras.models.load_model("scratchmodel.h5")
+        self.model = keras.models.load_model("mnist_model_new.h5")
     
     def predict_digit(self, image):
         image = np.expand_dims(image, axis = -1)
